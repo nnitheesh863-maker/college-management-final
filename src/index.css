@@ -1,3 +1,169 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+.pingowar
+{
+  animation: binbounce 1s ease-in-out forwards
+}
+.gaylights
+{
+  animation: funkyColors 7s ease-in-out infinite
+}
+.pingowar1
+{
+  animation: binbounce .8s ease-in-out forwards
+}
+.buttons
+{
+  animation: glint 1.3s ease-in-out forwards
+}
+.welcome
+{
+  animation: welcome 1.3s ease-in-out forwards
+}
+.sidebar
+{
+  animation: slidein 0.4s ease-in-out forwards;
+}
+.sidebar1
+{
+  animation: slidein 0.6s ease-in-out forwards;
+}
+.sidebar2
+{
+  animation: slidein 0.8s ease-in-out forwards;
+}
+.sidebar3
+{
+  animation: slidein 1s ease-in-out forwards;
+}
+.sidebar4
+{
+  animation: slidein 1.2s ease-in-out forwards;
+}
+.chatbot
+{
+  width: 240px;
+  height: 240px;
+  animation: morph 1s ease-in-out forwards,
+             slidein 1s ease-in-out forwards;
+}
+
+@keyframes welcome
+{
+    0%
+     {
+        opacity: 0;
+        transform: scale(0.5) translateY(1000px);
+        filter: blur(10px);
+
+    }
+    70%
+    {
+        opacity: 0.8;
+        transform: scale(1) translateY(-10px);
+        filter: blur(0.5px) ;
+    }
+     100%
+     {
+        opacity: 1;
+        transform: scale(1) translateX(0px);
+        filter: blur(0px);
+     }
+}
+
+
+@keyframes binbounce
+{
+    0%
+     {
+        opacity: 0;
+        transform: scale(0.5) translateY(10px);
+        filter: blur(10px);
+
+    }
+    70%
+    {
+        opacity: 0.8;
+        transform: scale(1.07) translateY(-20px);
+        filter: blur(0.5px) ;
+    }
+     100%
+     {
+        opacity: 1;
+        transform: scale(1) translateX(0px);
+        filter: blur(0px);
+     }
+}
+@keyframes funkyColors {
+  0% {
+    filter: hue-rotate(0deg) brightness(100%);
+  }
+  50% {
+    filter: hue-rotate(180deg) brightness(110%);
+  }
+  100% {
+    filter: hue-rotate(0deg) brightness(100%);
+  }
+}
+@keyframes glint
+{
+  0%
+  {
+    opacity: 0.1;
+    transform: scale(0) translateY(-1000px);
+    filter: brightness(50%);
+  }
+  60%
+  {
+    opacity: 1;
+    transform: scale(0);
+    filter: brightness(60%);
+  }
+  90%
+  {
+    transform: scale(1.04);
+    filter: brightness(90%);
+  }
+  100%
+  {
+    transform: scale(1);
+    filter: brightness(100%);
+  }
+}
+@keyframes slidein
+{
+  0%
+  {
+    filter: blur(4px);
+    transform: translateX(-1000px);
+  }
+  100%
+  {
+    filter: blur(0px);
+    transform: translateX(0px);
+  }
+}
+@keyframes morph
+{
+  0%
+  {
+    opacity: .3;
+    border-radius: 50%;
+  }
+  70%
+  {
+    opacity: .3;
+    border-radius: 50%;
+  }
+  90%
+  {
+    opacity: .7;
+    border-radius: 5%;
+  }
+  100%
+  {
+    opacity: 1;
+    border-radius: 10%;
+  }
+}

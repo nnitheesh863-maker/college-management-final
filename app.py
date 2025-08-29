@@ -1,15 +1,31 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from pymongo import MongoClient
+import requests
 
 MONGO_URI = "mongodb+srv://kiruthik:29792979@cluster0.rcl14uv.mongodb.net/?retryWrites=true&w=majority"
 client = MongoClient(MONGO_URI)
+ai_model="gemma3:1b"
 
 db = client["teacher_app"]
 users = db["users"]  # collection for storing teachers
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all domains so React can call this API
+
+@app.route("/chatbot", methods=["POST"])
+def chat():
+    data=request.json
+    user_message=data.get("message","")
+    try:
+        response=requests.post( "http://localhost:11434/api/generate",
+            json={"model": ai_model, "prompt": user_message,"stream": False},)
+        output_data=response.json()
+        reply=output_data.get("response","No response")
+        return jsonify({"reply":reply})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 
 @app.route("/ping", methods=["GET", "POST"])
 def ping():

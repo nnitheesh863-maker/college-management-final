@@ -20,45 +20,50 @@ function PingTest() {
   };
 
   return (
-    <div className="p-6 max-w-md mx-auto">
-      <h2 className="text-2xl font-bold mb-4">Ping Test</h2>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">
+      <div className="flex flex-col items-center">
+        <div className="pingowar mb-6 text-white text-3xl font-bold">Hello CSS</div>
+        <div className="p-8 max-w-lg w-full bg-white/30 backdrop-blur-md rounded-3xl shadow-2xl border border-white/20">
+          <h2 className="text-2xl font-bold mb-4">Ping Test</h2>
 
-      <div className="mb-4">
-        <label className="block mb-1 font-medium">Name</label>
-        <input
-          type="text"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          className="w-full p-2 border border-gray-300 rounded"
-          placeholder="Enter name"
-        />
-      </div>
+          <div className="mb-4">
+            <label className="block mb-1 font-medium">Name</label>
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              className="w-full p-2 border border-gray-300 rounded"
+              placeholder="Enter name"
+            />
+          </div>
 
-      <div className="mb-4">
-        <label className="block mb-1 font-medium">Message</label>
-        <input
-          type="text"
-          name="message"
-          value={formData.message}
-          onChange={handleChange}
-          className="w-full p-2 border border-gray-300 rounded"
-          placeholder="Enter message"
-        />
-      </div>
+          <div className="mb-4">
+            <label className="block mb-1 font-medium">Message</label>
+            <input
+              type="text"
+              name="message"
+              value={formData.message}
+              onChange={handleChange}
+              className="w-full p-2 border border-gray-300 rounded"
+              placeholder="Enter message"
+            />
+          </div>
 
-      <button
-        onClick={handlePing}
-        className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
-      >
-        Send Ping
-      </button>
+          <button
+            onClick={handlePing}
+            className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+          >
+            Send Ping
+          </button>
 
-      {response && (
-        <div className="mt-4 p-3 bg-gray-100 border border-gray-300 rounded">
-          <strong>Response:</strong> {response}
+          {response && (
+            <div className="mt-4 p-3 bg-green-100 border border-gray-300 rounded">
+              <strong>Response:</strong> {response}
+            </div>
+          )}
         </div>
-      )}
+      </div>
     </div>
   );
 }
