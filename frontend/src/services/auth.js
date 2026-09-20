@@ -17,14 +17,15 @@ export async function register(userData) {
 export function logout() {
   localStorage.removeItem('token');
   localStorage.removeItem('user');
-  window.location.href = '/login';
 }
 
 export function getStoredUser() {
   try {
     const user = localStorage.getItem('user');
     return user ? JSON.parse(user) : null;
-  } catch { return null; }
+  } catch {
+    return null;
+  }
 }
 
 export function getToken() {
