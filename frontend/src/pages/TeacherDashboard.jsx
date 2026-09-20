@@ -36,20 +36,58 @@ const mockData = {
     { userId: { name: 'Bob Smith' }, rollNo: 'STU102', grade: '10' },
     { userId: { name: 'Charlie Brown' }, rollNo: 'STU103', grade: '10' },
     { userId: { name: 'Diana Prince' }, rollNo: 'STU104', grade: '10' },
+    { userId: { name: 'Grace Lee' }, rollNo: 'STU105', grade: '10' },
   ],
-  assignments: [{ title: 'Calculus Homework', subject: 'Math', dueDate: '2026-06-01', grade: '10' }],
-  timetable: [{ day: 'Monday', period: 1, subject: 'Math' }, { day: 'Wednesday', period: 3, subject: 'Math' }],
+  assignments: [
+    { title: 'Calculus & Integration Problem Set', subject: 'Math', dueDate: '2026-06-01', grade: '10', submissions: 28, totalStudents: 45 },
+    { title: 'Linear Algebra Matrices Homework', subject: 'Math', dueDate: '2026-05-25', grade: '10', submissions: 42, totalStudents: 45 },
+    { title: 'Probability & Statistics Assignment', subject: 'Math', dueDate: '2026-06-12', grade: '10', submissions: 15, totalStudents: 45 },
+  ],
+  timetable: [
+    { day: 'Monday', period: 1, subject: 'Mathematics (10-A)', time: '09:00 - 10:00' },
+    { day: 'Monday', period: 3, subject: 'Mathematics (10-B)', time: '11:15 - 12:15' },
+    { day: 'Tuesday', period: 2, subject: 'Mathematics (10-A)', time: '10:00 - 11:00' },
+    { day: 'Wednesday', period: 3, subject: 'Mathematics (10-A)', time: '11:15 - 12:15' },
+    { day: 'Thursday', period: 5, subject: 'Mathematics (10-B)', time: '01:00 - 02:00' },
+    { day: 'Friday', period: 3, subject: 'Mathematics (10-A)', time: '11:15 - 12:15' },
+  ],
 };
 
 export default function TeacherDashboard() {
   const [data, setData] = useState(mockData);
   const [showAlert, setShowAlert] = useState(true);
+  const [newAsg, setNewAsg] = useState({ title: '', subject: 'Mathematics', dueDate: '', grade: '10', description: '' });
+  const [asgToast, setAsgToast] = useState('');
 
   useEffect(() => {
-    api.get('/teacher/dashboard').then(({ data }) => {
-      if (data) setData(prev => ({ ...prev, ...data }));
+    api.get('/teacher/dashboard').then(({ data: res }) => {
+      if (res) {
+        setData(prev => ({
+          ...prev,
+          ...res,
+          teacher: res.teacher || prev.teacher,
+          studentCount: res.students?.length || res.studentCount || prev.studentCount,
+          allStudents: (res.students && res.students.length > 0) ? res.students : prev.allStudents,
+          assignments: (res.assignments && res.assignments.length > 0) ? res.assignments : prev.assignments,
+          timetable: (res.timetable && res.timetable.length > 0) ? res.timetable : prev.timetable,
+        }));
+      }
     }).catch(() => {});
   }, []);
+
+  const handleCreateAssignment = (e) => {
+    e.preventDefault();
+    if (!newAsg.title || !newAsg.dueDate) return;
+    const item = {
+      ...newAsg,
+      submissions: 0,
+      totalStudents: data.studentCount || 45,
+    };
+    setData(prev => ({ ...prev, assignments: [item, ...prev.assignments] }));
+    setNewAsg({ title: '', subject: 'Mathematics', dueDate: '', grade: '10', description: '' });
+    setAsgToast(`✅ Assignment "${item.title}" created successfully!`);
+    setTimeout(() => setAsgToast(''), 4000);
+  };
 
   const lowMarksAlert = data.weakStudents.filter(w => w.percent < 35);
   const lowAttAlert = data.lowAttendance.filter(a => a.percent < 75);
@@ -265,62 +303,211 @@ export default function TeacherDashboard() {
 
         if (s === 'assignments') return (
           <div className="space-y-6">
-            <h2 className="text-2xl font-bold glow-text">📚 Assignment Management</h2>
-            <GlassCard hoverable glow><GlassCardContent>
-              <form className="space-y-4 max-w-lg" onSubmit={e => e.preventDefault()}>
-                <input placeholder="Assignment Title" className="input-glass" />
-                <textarea placeholder="Description" className="input-glass h-24 resize-none" />
-                <select className="input-glass"><option>Select Subject</option><option>Math</option><option>Physics</option></select>
-                <input type="date" className="input-glass" />
-                <motion.button whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.95 }}
-                  className="w-full p-3 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold shadow-lg">Create Assignment</motion.button>
-              </form>
-            </GlassCardContent></GlassCard>
-          </div>
-        );
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+              <div>
+                <h2 className="text-2xl font-bold glow-text">📚 Assignment Management</h2>
+                <p className="text-slate-400 text-sm">Create, publish, and track student homework submissions</p>
+              </div>
+              <span className="text-xs bg-purple-500/20 text-purple-300 border border-purple-500/30 px-3 py-1.5 rounded-full font-semibold">
+                {data.assignments.length} Total Assignments
+              </span>
+            </div>
 
-        if (s === 'analytics') return (
-          <div className="space-y-6">
-            <h2 className="text-2xl font-bold glow-text">📈 Student Analytics</h2>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-              <GlassCard hoverable glow><GlassCardContent>
-                <h3 className="text-white font-semibold mb-4">Class Performance</h3>
+            {asgToast && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="p-4 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-200 text-sm font-semibold flex items-center justify-between"
+              >
+                <span>{asgToast}</span>
+                <button onClick={() => setAsgToast('')} className="text-emerald-300 hover:text-white">&times;</button>
+              </motion.div>
+            )}
+
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <div className="lg:col-span-1">
+                <GlassCard hoverable glow><GlassCardContent>
+                  <h3 className="text-white font-semibold mb-3 flex items-center gap-2">
+                    <span>✨</span> Create New Assignment
+                  </h3>
+                  <form className="space-y-3" onSubmit={handleCreateAssignment}>
+                    <div>
+                      <label className="block text-[11px] font-semibold text-slate-300 uppercase tracking-wider mb-1">Title</label>
+                      <input
+                        placeholder="e.g. Calculus Problem Set 4"
+                        value={newAsg.title}
+                        onChange={e => setNewAsg({ ...newAsg, title: e.target.value })}
+                        className="input-glass text-xs"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[11px] font-semibold text-slate-300 uppercase tracking-wider mb-1">Subject</label>
+                      <select
+                        value={newAsg.subject}
+                        onChange={e => setNewAsg({ ...newAsg, subject: e.target.value })}
+                        className="input-glass text-xs"
+                      >
+                        <option value="Mathematics">Mathematics</option>
+                        <option value="Physics">Physics</option>
+                        <option value="Chemistry">Chemistry</option>
+                        <option value="Computer Science">Computer Science</option>
+                        <option value="English">English</option>
+                      </select>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2">
+                      <div>
+                        <label className="block text-[11px] font-semibold text-slate-300 uppercase tracking-wider mb-1">Class / Grade</label>
+                        <select
+                          value={newAsg.grade}
+                          onChange={e => setNewAsg({ ...newAsg, grade: e.target.value })}
+                          className="input-glass text-xs"
+                        >
+                          <option value="10">Class 10-A</option>
+                          <option value="10B">Class 10-B</option>
+                          <option value="11">Class 11-A</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label className="block text-[11px] font-semibold text-slate-300 uppercase tracking-wider mb-1">Due Date</label>
+                        <input
+                          type="date"
+                          value={newAsg.dueDate}
+                          onChange={e => setNewAsg({ ...newAsg, dueDate: e.target.value })}
+                          className="input-glass text-xs"
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label className="block text-[11px] font-semibold text-slate-300 uppercase tracking-wider mb-1">Description & Guidelines</label>
+                      <textarea
+                        placeholder="Provide detailed instructions or question numbers..."
+                        value={newAsg.description}
+                        onChange={e => setNewAsg({ ...newAsg, description: e.target.value })}
+                        className="input-glass h-20 resize-none text-xs"
+                      />
+                    </div>
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.96 }}
+                      type="submit"
+                      className="w-full py-3 rounded-xl bg-gradient-to-r from-purple-600 via-fuchsia-600 to-pink-600 text-white font-semibold text-xs shadow-lg hover:shadow-purple-500/25"
+                    >
+                      🚀 Publish Assignment
+                    </motion.button>
+                  </form>
+                </GlassCardContent></GlassCard>
+              </div>
+
+              <div className="lg:col-span-2 space-y-4">
+                <h3 className="text-white font-semibold text-base flex items-center justify-between">
+                  <span>📋 Active Assignments & Submissions</span>
+                  <span className="text-xs text-slate-400">Class 10 • Term 2</span>
+                </h3>
                 <div className="space-y-3">
-                  {data.subjectAverages.map((s, i) => (
-                    <div key={i}>
-                      <div className="flex justify-between text-sm mb-1"><span className="text-slate-300">{s.subject}</span><span className="text-white font-bold">{s.average}%</span></div>
-                      <div className="w-full bg-white/10 rounded-full h-2"><motion.div initial={{ width: 0 }} animate={{ width: `${s.average}%` }} transition={{ delay: i * 0.1, duration: 1 }} className="h-full rounded-full bg-gradient-to-r from-purple-500 to-pink-500" /></div>
-                    </div>
-                  ))}
+                  {data.assignments.map((a, i) => {
+                    const submissions = a.submissions ?? 28;
+                    const total = a.totalStudents ?? data.studentCount ?? 45;
+                    const pct = Math.round((submissions / total) * 100);
+                    return (
+                      <motion.div
+                        key={i}
+                        initial={{ opacity: 0, y: 15 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: i * 0.05 }}
+                        className="p-5 rounded-2xl bg-white/5 border border-white/10 hover:border-purple-500/30 transition-all shadow-md"
+                      >
+                        <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2 mb-2">
+                          <div>
+                            <h4 className="font-bold text-white text-sm">{a.title}</h4>
+                            <p className="text-purple-300 text-xs">{a.subject} • Class {a.grade || '10'}</p>
+                          </div>
+                          <span className="text-xs bg-amber-500/15 text-amber-300 border border-amber-500/30 px-2.5 py-1 rounded-lg self-start font-medium">
+                            Due: {a.dueDate ? (typeof a.dueDate === 'string' ? a.dueDate.split('T')[0] : new Date(a.dueDate).toISOString().split('T')[0]) : '2026-06-01'}
+                          </span>
+                        </div>
+
+                        {a.description && <p className="text-slate-300 text-xs mb-3">{a.description}</p>}
+
+                        <div className="pt-3 border-t border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+                          <div className="flex-1 w-full sm:max-w-xs">
+                            <div className="flex justify-between text-slate-400 text-[11px] mb-1">
+                              <span>Submissions</span>
+                              <span className="text-white font-semibold">{submissions} / {total} ({pct}%)</span>
+                            </div>
+                            <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
+                              <motion.div
+                                initial={{ width: 0 }}
+                                animate={{ width: `${pct}%` }}
+                                transition={{ duration: 1 }}
+                                className="h-full rounded-full bg-gradient-to-r from-purple-500 to-pink-500"
+                              />
+                            </div>
+                          </div>
+                          <div className="flex gap-2">
+                            <button className="px-3 py-1.5 rounded-lg bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 font-semibold text-xs">
+                              📥 View Submissions ({submissions})
+                            </button>
+                            <button className="px-3 py-1.5 rounded-lg bg-blue-500/20 hover:bg-blue-500/30 text-blue-300 font-semibold text-xs">
+                              ✏️ Grade
+                            </button>
+                          </div>
+                        </div>
+                      </motion.div>
+                    );
+                  })}
                 </div>
-              </GlassCardContent></GlassCard>
-              <GlassCard hoverable glow><GlassCardContent>
-                <h3 className="text-white font-semibold mb-4">🏆 Top Performers</h3>
-                <div className="space-y-2">
-                  {['Grace Lee', 'Alice Johnson', 'Diana Prince'].map((n, i) => (
-                    <div key={i} className="flex justify-between items-center p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
-                      <span className="text-white font-medium text-sm">{['🥇', '🥈', '🥉'][i]} {n}</span>
-                      <span className="text-emerald-300 text-xs font-bold">{93 - i * 5}%</span>
-                    </div>
-                  ))}
-                </div>
-              </GlassCardContent></GlassCard>
+              </div>
             </div>
           </div>
         );
 
         if (s === 'timetable') return (
           <div className="space-y-6">
-            <h2 className="text-2xl font-bold glow-text">⏰ My Timetable</h2>
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+              <div>
+                <h2 className="text-2xl font-bold glow-text">⏰ Weekly Teaching Schedule</h2>
+                <p className="text-slate-400 text-sm">{data.teacher?.name} • Department of {data.teacher?.subject || 'Mathematics'}</p>
+              </div>
+              <span className="text-xs bg-purple-500/20 text-purple-300 border border-purple-500/30 px-3 py-1.5 rounded-full font-semibold">
+                6 Active Class Periods / Week
+              </span>
+            </div>
+
             <GlassCard hoverable glow><GlassCardContent>
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
-                  <thead><tr className="border-b border-white/10 text-slate-500 uppercase text-xs tracking-wider">
-                    <th className="p-3 text-left">Day</th><th className="p-3 text-left">Period</th><th className="p-3 text-left">Subject</th>
-                  </tr></thead>
+                  <thead>
+                    <tr className="border-b border-white/10 text-slate-400 uppercase text-xs tracking-wider">
+                      <th className="p-3.5 text-left">Day</th>
+                      <th className="p-3.5 text-left">Time Slot</th>
+                      <th className="p-3.5 text-left">Period</th>
+                      <th className="p-3.5 text-left">Assigned Subject & Class</th>
+                      <th className="p-3.5 text-left">Room / Hall</th>
+                      <th className="p-3.5 text-left">Action</th>
+                    </tr>
+                  </thead>
                   <tbody>
                     {data.timetable.map((t, i) => (
-                      <tr key={i} className="border-b border-white/5 hover:bg-white/5"><td className="p-3 text-white">{t.day}</td><td className="p-3 text-slate-400">Period {t.period}</td><td className="p-3 text-white font-medium">{t.subject}</td></tr>
+                      <tr key={i} className="border-b border-white/5 hover:bg-white/5 transition-colors">
+                        <td className="p-3.5 text-white font-semibold flex items-center gap-2">
+                          <span className="text-purple-400">📅</span> {t.day}
+                        </td>
+                        <td className="p-3.5 text-slate-300 text-xs font-mono">{t.time || `0${t.period + 8}:00 - 0${t.period + 9}:00 AM`}</td>
+                        <td className="p-3.5 text-purple-300 font-semibold text-xs">Period {t.period}</td>
+                        <td className="p-3.5 text-white font-medium">
+                          <span className="px-2.5 py-1 rounded-md bg-purple-500/20 text-purple-200 border border-purple-500/30 text-xs">
+                            {t.subject}
+                          </span>
+                        </td>
+                        <td className="p-3.5 text-slate-400 text-xs">Hall {100 + (t.period || i + 1)}</td>
+                        <td className="p-3.5">
+                          <button className="px-3 py-1 rounded-lg bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 text-xs font-semibold border border-emerald-500/30">
+                            ✓ Mark Attendance
+                          </button>
+                        </td>
+                      </tr>
                     ))}
                   </tbody>
                 </table>

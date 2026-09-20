@@ -10,6 +10,7 @@ import Mark from './models/Mark.js';
 import Notification from './models/Notification.js';
 import Announcement from './models/Announcement.js';
 import Timetable from './models/Timetable.js';
+import Assignment from './models/Assignment.js';
 
 async function seed() {
   await connectDB();
@@ -17,6 +18,7 @@ async function seed() {
     User.deleteMany({}), Student.deleteMany({}), Teacher.deleteMany({}),
     Fee.deleteMany({}), Attendance.deleteMany({}), Mark.deleteMany({}),
     Notification.deleteMany({}), Announcement.deleteMany({}), Timetable.deleteMany({}),
+    Assignment.deleteMany({}),
   ]);
 
   // Create users
@@ -100,6 +102,15 @@ async function seed() {
       period++;
     }
   }
+
+  // Assignments
+  await Assignment.insertMany([
+    { teacherId: teacher._id, subject: 'Mathematics', title: 'Calculus & Integration Problem Set', description: 'Complete exercises 4.1 through 4.5 on definite integrals.', dueDate: new Date('2026-06-01'), grade: '10' },
+    { teacherId: teacher._id, subject: 'Physics', title: 'Electromagnetism Lab Report', description: 'Submit the formal lab report for Experiment 3 (Magnetic Field Mapping).', dueDate: new Date('2026-05-28'), grade: '10' },
+    { teacherId: teacher._id, subject: 'Computer Science', title: 'Data Structures: Binary Trees & BST', description: 'Implement insert, search, and in-order traversal in C++ / Java / Python.', dueDate: new Date('2026-06-05'), grade: '10' },
+    { teacherId: teacher._id, subject: 'Chemistry', title: 'Organic Chemistry Reactions Essay', description: 'Analyze nucleophilic addition mechanisms with reaction diagrams.', dueDate: new Date('2026-06-10'), grade: '10' },
+    { teacherId: teacher._id, subject: 'English', title: 'Shakespearean Literature Analysis', description: 'Write a 1000-word critical review of Hamlet Act III.', dueDate: new Date('2026-06-15'), grade: '10' },
+  ]);
 
   // Announcements
   await Announcement.insertMany([
