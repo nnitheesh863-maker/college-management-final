@@ -1,35 +1,27 @@
 {
-  "name": "teacher-app-fresh",
+  "name": "college-management-erp-root",
+  "version": "1.0.0",
   "private": true,
-  "version": "0.0.0",
-  "type": "module",
+  "description": "Comprehensive College Management ERP System (React + Express + MongoDB + Playwright)",
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
-  },
-  "dependencies": {
-    "axios": "^1.11.0",
-    "framer-motion": "^12.40.0",
-    "react": "^19.1.1",
-    "react-dom": "^19.1.1",
-    "react-icons": "^5.6.0",
-    "react-router-dom": "^7.8.1",
-    "recharts": "^3.8.1"
+    "install:all": "npm install && cd backend && npm install && cd ../frontend && npm install",
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:backend": "cd backend && npm run dev",
+    "build": "cd frontend && npm run build",
+    "seed": "cd backend && npm run seed",
+    "test": "cd frontend && npm test",
+    "test:e2e": "cd frontend && npx playwright test",
+    "test:e2e:ui": "cd frontend && npx playwright test --ui",
+    "lint": "cd frontend && npm run lint"
   },
   "devDependencies": {
-    "@eslint/js": "^9.32.0",
-    "@types/react": "^19.1.9",
-    "@types/react-dom": "^19.1.7",
-    "@vitejs/plugin-react": "^4.7.0",
-    "autoprefixer": "^10.4.21",
-    "eslint": "^9.32.0",
-    "eslint-plugin-react-hooks": "^5.2.0",
-    "eslint-plugin-react-refresh": "^0.4.20",
-    "globals": "^16.3.0",
-    "postcss": "^8.5.6",
-    "tailwindcss": "^3.3.2",
-    "vite": "^7.1.0"
-  }
+    "concurrently": "^9.1.2"
+  },
+  "author": "College Management Team",
+  "license": "ISC"
 }
