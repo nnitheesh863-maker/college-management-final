@@ -8,13 +8,27 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const { login } = useAuth();
+  const { login, loginWithDemo } = useAuth();
   const navigate = useNavigate();
 
+  const handleDemo = (role = 'teacher') => {
+    if (loginWithDemo) loginWithDemo(role);
+    const paths = { student: '/student-dashboard', teacher: '/teacher-dashboard', principal: '/principal-dashboard' };
+    navigate(paths[role] || '/teacher-dashboard');
+  };
+
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    if (e && e.preventDefault) e.preventDefault();
     setError('');
     setLoading(true);
+
+    if (email.endsWith('@demo.edu')) {
+      const role = email.startsWith('alice') ? 'student' : email.startsWith('sarah') ? 'teacher' : 'principal';
+      handleDemo(role);
+      setLoading(false);
+      return;
+    }
+
     try {
       const data = await login(email, password);
       const paths = { student: '/student-dashboard', teacher: '/teacher-dashboard', principal: '/principal-dashboard' };
@@ -55,40 +69,63 @@ export default function Login() {
             <h2 className="text-3xl font-extrabold text-center mb-1 glow-text">Welcome Back</h2>
             <p className="text-slate-400 text-sm text-center mb-8">Sign in to your College ERP portal</p>
 
-            <form onSubmit={handleSubmit} className="space-y-5">
+            <form onSubmit={handleSubmit} action="javascript:void(0);" className="space-y-5">
               <div>
                 <label className="text-slate-300 text-sm font-medium mb-1.5 block">Email</label>
-                <input type="email" placeholder="you@university.edu" value={email}
-                  onChange={(e) => setEmail(e.target.value)} className="input-glass" required />
+                <input
+                  type="email"
+                  placeholder="you@university.edu"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="input-glass"
+                  required
+                />
               </div>
               <div>
                 <label className="text-slate-300 text-sm font-medium mb-1.5 block">Password</label>
-                <input type="password" placeholder="Enter your password" value={password}
-                  onChange={(e) => setPassword(e.target.value)} className="input-glass" required />
+                <input
+                  type="password"
+                  placeholder="Enter your password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="input-glass"
+                  required
+                />
               </div>
 
               <motion.button
-                whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
-                type="submit" disabled={loading}
-                className="w-full py-3.5 rounded-xl bg-gradient-to-r from-purple-500 via-fuchsia-500 to-pink-500 text-white font-semibold text-lg shadow-lg hover:shadow-[0_0_35px_rgba(168,85,247,0.35)] transition-all disabled:opacity-60"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                type="submit"
+                disabled={loading}
+                className="w-full py-3.5 rounded-xl bg-gradient-to-r from-purple-500 via-fuchsia-500 to-pink-500 text-white font-semibold text-lg shadow-lg hover:shadow-[0_0_35px_rgba(168,85,247,0.35)] transition-all disabled:opacity-60 cursor-pointer"
               >
                 {loading ? 'Signing in...' : '🔐 Sign In'}
               </motion.button>
             </form>
 
             {error && (
-              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-                className="mt-5 p-3 rounded-xl text-center font-semibold bg-rose-500/20 text-rose-300 border border-rose-500/30"
-              >{error}</motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="mt-5 p-3 rounded-xl text-center font-semibold bg-rose-500/20 text-rose-300 border border-rose-500/30 text-sm"
+              >
+                {error}
+              </motion.div>
             )}
 
             <div className="mt-6 flex flex-col items-center gap-3">
               <Link to="/register" className="text-slate-400 hover:text-purple-300 font-medium text-sm transition-colors">
                 Don't have an account? Register
               </Link>
-              <Link to="/teacher-dashboard" className="text-xs text-slate-500 hover:text-slate-300 transition-colors">
+              <button
+                type="button"
+                data-testid="demo-login-btn"
+                onClick={() => handleDemo('teacher')}
+                className="text-xs text-slate-500 hover:text-purple-400 transition-colors cursor-pointer bg-transparent border-0 underline"
+              >
                 ⚡ Skip to Demo Dashboard
-              </Link>
+              </button>
             </div>
           </div>
         </div>
