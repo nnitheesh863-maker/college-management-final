@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import PrivateRoute from './routes/PrivateRoute';
 import RoleRoute from './routes/RoleRoute';
+import LandingPage from './pages/LandingPage';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import StudentDashboard from './pages/StudentDashboard';
@@ -14,6 +15,7 @@ function App() {
     <AuthProvider>
       <ErrorBoundary>
         <Routes>
+          <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/student-dashboard" element={
@@ -25,7 +27,7 @@ function App() {
           <Route path="/principal-dashboard" element={
             <PrivateRoute><RoleRoute allowedRoles={['principal']}><PrincipalDashboard /></RoleRoute></PrivateRoute>
           } />
-          <Route path="*" element={<Login />} />
+          <Route path="*" element={<LandingPage />} />
         </Routes>
       </ErrorBoundary>
     </AuthProvider>
@@ -33,3 +35,4 @@ function App() {
 }
 
 export default App;
+

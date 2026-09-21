@@ -123,7 +123,52 @@ npm run test:e2e:ui
 
 ---
 
+## 🌐 Landing Page & Public University Portal (Unipix University)
+- **Classic Academic Aesthetic**: Custom Gothic architecture hero with official Unipix laurel wreath crest and Playfair/Cinzel typography.
+- **Our Programs Bento Grid**: Dynamic exploration of Undergraduate, Graduate, Lifelong Learning, and Global Exchange majors with custom badges and directional indicator.
+- **Heritage & Story Section**: Deep crimson narrative banner highlighting 130+ years of academic excellence and research libraries.
+- **Transparent Tuition & Fee Schedule**: Interactive undergraduate and graduate cost breakdowns with semester and annual fee calculators.
+- **Campus Life Showcase**: Student organizations, athletics, residential halls, and cultural festivals.
+- **Interactive Admissions Inquiry**: Fast online application form with instant reference confirmation.
+- **Campus Events & Global Accreditations**: Key symposiums, dates, and AACSB / EQUIS partner badges.
+- **Alumni Gazette Newsletter**: Instant subscription bar.
+- **Fast ERP Quick-Access**: One-click jump to Student, Faculty, and Dean portals.
+
+---
+
+## ☁️ Deploying to Vercel
+
+The project is fully pre-configured for Vercel deployment with `vercel.json` SPA routing support:
+
+### Option A: Deploy via Vercel CLI (Recommended)
+```bash
+# Install Vercel CLI if needed
+npm i -g vercel
+
+# In project root:
+vercel --prod
+```
+
+### Option B: Deploy via Vercel Dashboard (GitHub / GitLab / Bitbucket)
+1. Push your repository to GitHub.
+2. In the [Vercel Dashboard](https://vercel.com/new), select your repository.
+3. If deploying the **entire monorepo**:
+   - Framework Preset: **Vite**
+   - Root Directory: `./` (or leave default)
+   - Build Command: `cd frontend && npm install && npm run build`
+   - Output Directory: `frontend/dist`
+4. If deploying **frontend only**:
+   - Root Directory: `frontend`
+   - Framework Preset: **Vite**
+   - Build Command: `npm run build`
+   - Output Directory: `dist`
+5. Configure Environment Variables in Vercel:
+   - `VITE_API_URL`: Your deployed backend API URL (e.g. `https://your-api.onrender.com/api`)
+
+---
+
 ## 🔒 Security & Design Standards
 - **JWT Authentication** with role-based access control (RBAC).
 - **Glassmorphism Design System** with dark mode aesthetics and Framer Motion micro-animations.
 - **Graceful Fallbacks**: Interactive demo state when running offline or without database connectivity.
+
