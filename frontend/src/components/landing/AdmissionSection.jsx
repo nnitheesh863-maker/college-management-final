@@ -336,7 +336,7 @@ export default function AdmissionSection({ prefilledProgram }) {
                         <label className="block text-xs font-semibold text-slate-300 mb-1.5">Brief Statement of Intent (Optional)</label>
                         <textarea
                           rows="3"
-                          placeholder="Tell us what motivates your academic passion and aspirations at Unipix University..."
+                          placeholder="Tell us what motivates your academic passion and aspirations at KPRCAS..."
                           value={formData.statement}
                           onChange={(e) => setFormData({ ...formData, statement: e.target.value })}
                           className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/15 text-white text-xs placeholder:text-slate-500 focus:outline-none focus:border-[#8B1538]"

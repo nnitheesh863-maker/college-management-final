@@ -59,7 +59,7 @@ export default function ProgramsSection({ onSelectProgram }) {
               Our Programs
             </h2>
             <p className="text-slate-300 text-sm sm:text-base leading-relaxed mb-8">
-              Embark on a journey of knowledge, discovery, and growth at Unipix University. 
+              Embark on a journey of knowledge, discovery, and growth at KPRCAS. 
               Our admissions process is designed to identify bright, motivated individuals who are eager to contribute to our dynamic academic community.
             </p>
 

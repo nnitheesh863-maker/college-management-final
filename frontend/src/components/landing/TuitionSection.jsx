@@ -38,12 +38,12 @@ export default function TuitionSection() {
             <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-medium tracking-tight text-white mb-4 leading-tight">
               Tuition Fees At <br />
               <span className="font-serif italic font-normal text-slate-200">
-                Unipix University
+                KPRCAS
               </span>
             </h2>
 
             <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-              At Unipix University we are committed to providing a high-quality education that is accessible to a diverse range of students with transparent pricing and comprehensive financial support.
+              At KPRCAS we are committed to providing a high-quality education that is accessible to a diverse range of students with transparent pricing and comprehensive financial support.
             </p>
           </div>
 
