@@ -1,6 +1,7 @@
 import React from 'react';
 
-export const KPRCAS_LOGO_URL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdP-RRJw9azqzZPRS0X-mnx3PdXPS5QsgS4CX97vPFypWutU4AuuXr69W8&s=10";
+export const KPRCAS_LOGO_URL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQntV-vfAEiuTZf1zlD_rVMZhBh0Bir4gz0wdjf1r3jzYF-hXdXiLv7Ji0Q&s=10";
+export const KPRCAS_CAMPUS_BG_URL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdP-RRJw9azqzZPRS0X-mnx3PdXPS5QsgS4CX97vPFypWutU4AuuXr69W8&s=10";
 
 export const KprcasLogo = ({ className = "h-11", dark = false, showTagline = true }) => (
   <div className={`flex items-center gap-3 select-none ${className}`}>

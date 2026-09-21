@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
-import { KprcasLogo, KPRCAS_LOGO_URL } from '../components/landing/UnipixLogo';
+import { KprcasLogo, KPRCAS_LOGO_URL, KPRCAS_CAMPUS_BG_URL } from '../components/landing/UnipixLogo';
 import { 
   FaUserGraduate, 
   FaChalkboardTeacher, 
@@ -72,12 +72,17 @@ export default function Login() {
   };
 
   return (
-    <div className="relative min-h-screen flex flex-col items-center justify-center bg-[#070a13] p-4 sm:p-6 overflow-hidden">
-      {/* Background Animated Ambient Lights */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -left-40 w-[600px] h-[600px] bg-[#1e3a8a]/25 rounded-full blur-[140px] float" />
+    <div className="relative min-h-screen flex flex-col items-center justify-center bg-[#050814] p-4 sm:p-6 overflow-hidden">
+      {/* Background Campus Photo with Cinematic Overlay */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <img
+          src={KPRCAS_CAMPUS_BG_URL}
+          alt="KPRCAS Campus"
+          className="w-full h-full object-cover object-center opacity-15 filter blur-xs"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#050814] via-[#050814]/85 to-[#050814]/90" />
+        <div className="absolute -top-40 -left-40 w-[600px] h-[600px] bg-blue-600/20 rounded-full blur-[140px] float" />
         <div className="absolute -bottom-40 -right-40 w-[600px] h-[600px] bg-emerald-600/20 rounded-full blur-[140px] float-delayed" />
-        <div className="absolute top-1/3 right-1/4 w-[400px] h-[400px] bg-blue-500/15 rounded-full blur-[160px] float-fast" />
       </div>
 
       {/* Prominent Back to Landing Page Bar */}

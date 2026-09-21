@@ -1,27 +1,28 @@
 import React from 'react';
 import { FaUsers, FaFootballBall, FaHotel, FaHeartbeat, FaCompass } from 'react-icons/fa';
+import { KPRCAS_CAMPUS_BG_URL } from './UnipixLogo';
 
 export default function CampusLifeSection({ onOpenTour }) {
   const highlights = [
     {
-      icon: <FaUsers className="w-5 h-5 text-[#C5A880]" />,
-      title: '150+ Student Clubs & Orgs',
-      desc: 'From robotics and debate to sustainable agriculture and arts collectives.'
+      icon: <FaUsers className="w-5 h-5 text-blue-400" />,
+      title: '50+ Student Clubs & Forums',
+      desc: 'From robotics and coding cells to sustainable agriculture and arts collectives.'
     },
     {
-      icon: <FaFootballBall className="w-5 h-5 text-[#8B1538]" />,
-      title: 'Championship Athletics',
-      desc: '18 varsity teams competing with state-of-the-art training facilities.'
+      icon: <FaFootballBall className="w-5 h-5 text-emerald-400" />,
+      title: 'Championship Sports & Fitness',
+      desc: 'State-of-the-art sports facilities, synthetic tracks, and indoor gymnasiums.'
     },
     {
       icon: <FaHotel className="w-5 h-5 text-sky-400" />,
-      title: 'Modern Residential Halls',
-      desc: 'Comfortable living-learning communities with 24/7 security and dining.'
+      title: 'World-Class Infrastructure',
+      desc: 'Smart air-conditioned lecture halls, Wi-Fi enabled campus, and modern hostels.'
     },
     {
-      icon: <FaHeartbeat className="w-5 h-5 text-emerald-400" />,
-      title: 'Health & Wellness',
-      desc: 'Comprehensive medical center, mental health counseling, and fitness hubs.'
+      icon: <FaHeartbeat className="w-5 h-5 text-rose-400" />,
+      title: 'Health & Student Care',
+      desc: '24/7 medical assistance, student counseling, and comprehensive career mentoring.'
     }
   ];
 
@@ -31,26 +32,26 @@ export default function CampusLifeSection({ onOpenTour }) {
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center px-4 py-1.5 rounded-full border border-white/20 bg-white/5 text-xs font-semibold uppercase tracking-widest text-[#E5D4BA] mb-4">
+          <div className="inline-flex items-center px-4 py-1.5 rounded-full border border-emerald-400/30 bg-emerald-500/10 text-xs font-semibold uppercase tracking-widest text-emerald-300 mb-4">
             Campus Life
           </div>
 
           <h2 className="font-serif text-3xl sm:text-5xl font-medium tracking-tight text-white mb-6">
             Thriving Beyond Classes <br />
             <span className="font-serif italic font-normal text-slate-300">
-              Campus Life at Unipix
+              Campus Life at KPRCAS
             </span>
           </h2>
 
           <p className="text-slate-400 text-sm sm:text-base leading-relaxed mb-6">
-            Experience an enriching campus culture where friendships are forged, passions are ignited, and lifelong memories are made every single day.
+            Experience an enriching campus culture where friendships are forged, passions are ignited, and lifelong skills are developed every single day.
           </p>
 
           <button
             onClick={onOpenTour}
             className="inline-flex items-center gap-2.5 bg-white/10 hover:bg-white/20 border border-white/25 text-white px-6 py-2.5 rounded-full text-xs font-semibold tracking-wider uppercase backdrop-blur-md transition-all transform hover:scale-105"
           >
-            <FaCompass className="text-[#8B1538]" />
+            <FaCompass className="text-emerald-400" />
             <span>Launch 360° Virtual Campus Tour</span>
           </button>
         </div>
@@ -64,8 +65,8 @@ export default function CampusLifeSection({ onOpenTour }) {
             className="md:col-span-8 relative rounded-3xl overflow-hidden shadow-2xl border border-white/10 group h-80 sm:h-96 md:h-[450px] cursor-pointer"
           >
             <img
-              src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=1200&auto=format&fit=crop"
-              alt="Students enjoying campus life at Unipix"
+              src={KPRCAS_CAMPUS_BG_URL}
+              alt="KPRCAS Campus Infrastructure and Academic Life"
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               loading="lazy"
             />
