@@ -109,9 +109,33 @@ router.post('/messages', async (req, res) => {
   }
 });
 
+router.put('/profile', async (req, res) => {
+  try {
+    const { name, avatar, parentContact, grade } = req.body;
+    const User = (await import('../models/User.js')).default;
+    const user = await User.findById(req.user.id);
+    if (!user) return res.status(404).json({ message: 'User not found' });
+    if (name) user.name = name;
+    if (avatar !== undefined) user.avatar = avatar;
+    await user.save();
+
+    const student = await Student.findOne({ userId: req.user.id });
+    if (student) {
+      if (parentContact !== undefined) student.parentContact = parentContact;
+      if (grade) student.grade = grade;
+      await student.save();
+    }
+
+    res.json({ message: 'Profile updated successfully', user, student });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 router.put('/notifications/:id/read', async (req, res) => {
   await Notification.findByIdAndUpdate(req.params.id, { read: true });
   res.json({ ok: true });
 });
 
 export default router;
+

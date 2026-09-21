@@ -1,20 +1,49 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
+import { KprcasLogo, KPRCAS_LOGO_URL } from '../components/landing/UnipixLogo';
+import { 
+  FaUserGraduate, 
+  FaChalkboardTeacher, 
+  FaUserTie, 
+  FaLock, 
+  FaEnvelope, 
+  FaEye, 
+  FaEyeSlash, 
+  FaArrowRight, 
+  FaShieldAlt,
+  FaCheckCircle 
+} from 'react-icons/fa';
 
 export default function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('alice@demo.edu');
+  const [password, setPassword] = useState('password123');
+  const [selectedRole, setSelectedRole] = useState('student');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const { login, loginWithDemo } = useAuth();
   const navigate = useNavigate();
 
-  const handleDemo = (role = 'teacher') => {
+  const handleRoleSelect = (role) => {
+    setSelectedRole(role);
+    if (role === 'student') {
+      setEmail('alice@demo.edu');
+      setPassword('password123');
+    } else if (role === 'teacher') {
+      setEmail('sarah@demo.edu');
+      setPassword('password123');
+    } else if (role === 'principal') {
+      setEmail('james@demo.edu');
+      setPassword('password123');
+    }
+  };
+
+  const handleDemoDirect = (role = selectedRole) => {
     if (loginWithDemo) loginWithDemo(role);
     const paths = { student: '/student-dashboard', teacher: '/teacher-dashboard', principal: '/principal-dashboard' };
-    navigate(paths[role] || '/teacher-dashboard');
+    navigate(paths[role] || '/student-dashboard');
   };
 
   const handleSubmit = async (e) => {
@@ -24,7 +53,7 @@ export default function Login() {
 
     if (email.endsWith('@demo.edu')) {
       const role = email.startsWith('alice') ? 'student' : email.startsWith('sarah') ? 'teacher' : 'principal';
-      handleDemo(role);
+      handleDemoDirect(role);
       setLoading(false);
       return;
     }
@@ -34,99 +63,200 @@ export default function Login() {
       const paths = { student: '/student-dashboard', teacher: '/teacher-dashboard', principal: '/principal-dashboard' };
       navigate(paths[data.user.role] || '/student-dashboard');
     } catch (err) {
-      setError(err.response?.data?.message || 'Login failed');
+      setError(err.response?.data?.message || 'Login credentials invalid or server unreachable');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center bg-[#020617] p-6 overflow-hidden">
+    <div className="relative min-h-screen flex items-center justify-center bg-[#070a13] p-4 sm:p-6 overflow-hidden">
+      {/* Background Animated Ambient Lights */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -left-40 w-[700px] h-[700px] bg-purple-600/20 rounded-full blur-[150px] float" />
-        <div className="absolute -bottom-40 -right-40 w-[700px] h-[700px] bg-cyan-600/20 rounded-full blur-[150px] float-delayed" />
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-fuchsia-600/15 rounded-full blur-[180px] float-fast" />
+        <div className="absolute -top-40 -left-40 w-[600px] h-[600px] bg-[#1e3a8a]/25 rounded-full blur-[140px] float" />
+        <div className="absolute -bottom-40 -right-40 w-[600px] h-[600px] bg-emerald-600/20 rounded-full blur-[140px] float-delayed" />
+        <div className="absolute top-1/3 right-1/4 w-[400px] h-[400px] bg-blue-500/15 rounded-full blur-[160px] float-fast" />
       </div>
 
       <motion.div
-        initial={{ opacity: 0, scale: 0.92, y: 40 }}
+        initial={{ opacity: 0, scale: 0.94, y: 30 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
-        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-        className="relative w-full max-w-md"
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        className="relative w-full max-w-lg z-10"
       >
-        <div className="relative rounded-3xl overflow-hidden border border-purple-500/25 shadow-[0_0_80px_rgba(139,92,246,0.2)] bg-[#0f172a]/90 backdrop-blur-2xl">
-          <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-purple-500 via-fuchsia-500 to-cyan-500" />
+        <div className="relative rounded-3xl overflow-hidden border border-white/15 shadow-[0_20px_70px_rgba(0,0,0,0.6)] bg-[#0d1322]/95 backdrop-blur-2xl">
+          {/* Top Decorative Border */}
+          <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#1e3a8a] via-emerald-500 to-[#1e3a8a]" />
 
-          <div className="p-8 md:p-10">
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ delay: 0.3, type: 'spring', stiffness: 200 }}
-              className="w-18 h-18 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-purple-500 via-fuchsia-500 to-pink-500 flex items-center justify-center text-white text-3xl font-bold shadow-[0_0_30px_rgba(168,85,247,0.4)]"
-            >
-              C
-            </motion.div>
-            <h2 className="text-3xl font-extrabold text-center mb-1 glow-text">Welcome Back</h2>
-            <p className="text-slate-400 text-sm text-center mb-8">Sign in to your College ERP portal</p>
+          <div className="p-6 sm:p-10">
+            {/* Header with KPRCAS Official Logo */}
+            <div className="flex flex-col items-center text-center mb-6">
+              <Link to="/" className="group mb-3 transform hover:scale-105 transition-transform">
+                <div className="w-16 h-16 rounded-2xl bg-white p-1.5 shadow-xl border border-white/20 flex items-center justify-center">
+                  <img
+                    src={KPRCAS_LOGO_URL}
+                    alt="KPRCAS - Learn Beyond Logo"
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+              </Link>
+              
+              <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-white flex items-center gap-1.5">
+                KPR<span className="text-blue-500">CAS</span>
+                <span className="text-emerald-400 font-serif text-lg font-normal italic ml-1">ERP Portal</span>
+              </h1>
+              <p className="text-slate-400 text-xs mt-1 uppercase tracking-widest font-semibold">
+                Learn Beyond • College Management System
+              </p>
+            </div>
 
-            <form onSubmit={handleSubmit} action="javascript:void(0);" className="space-y-5">
+            {/* Role Switcher Tabs */}
+            <div className="mb-6">
+              <div className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2 text-center">
+                Select Your Role
+              </div>
+              <div className="grid grid-cols-3 gap-2 bg-black/40 p-1.5 rounded-2xl border border-white/10">
+                <button
+                  type="button"
+                  onClick={() => handleRoleSelect('student')}
+                  className={`py-2.5 px-2 rounded-xl text-xs font-bold transition-all flex flex-col items-center gap-1 ${
+                    selectedRole === 'student'
+                      ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg'
+                      : 'text-slate-400 hover:text-white hover:bg-white/5'
+                  }`}
+                >
+                  <FaUserGraduate className="w-4 h-4" />
+                  <span>Student</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => handleRoleSelect('teacher')}
+                  className={`py-2.5 px-2 rounded-xl text-xs font-bold transition-all flex flex-col items-center gap-1 ${
+                    selectedRole === 'teacher'
+                      ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-lg'
+                      : 'text-slate-400 hover:text-white hover:bg-white/5'
+                  }`}
+                >
+                  <FaChalkboardTeacher className="w-4 h-4" />
+                  <span>Faculty</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => handleRoleSelect('principal')}
+                  className={`py-2.5 px-2 rounded-xl text-xs font-bold transition-all flex flex-col items-center gap-1 ${
+                    selectedRole === 'principal'
+                      ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
+                      : 'text-slate-400 hover:text-white hover:bg-white/5'
+                  }`}
+                >
+                  <FaUserTie className="w-4 h-4" />
+                  <span>Principal</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Login Form */}
+            <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="text-slate-300 text-sm font-medium mb-1.5 block">Email</label>
+                <label className="text-slate-300 text-xs font-semibold mb-1.5 flex items-center gap-1.5">
+                  <FaEnvelope className="text-blue-400 w-3 h-3" /> Institutional Email
+                </label>
                 <input
                   type="email"
-                  placeholder="you@university.edu"
+                  placeholder="name@kprcas.ac.in"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="input-glass"
-                  required
-                />
-              </div>
-              <div>
-                <label className="text-slate-300 text-sm font-medium mb-1.5 block">Password</label>
-                <input
-                  type="password"
-                  placeholder="Enter your password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="input-glass"
+                  className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/15 text-white text-xs placeholder:text-slate-500 focus:outline-none focus:border-blue-500 transition-colors"
                   required
                 />
               </div>
 
+              <div>
+                <label className="text-slate-300 text-xs font-semibold mb-1.5 flex items-center justify-between">
+                  <span className="flex items-center gap-1.5">
+                    <FaLock className="text-emerald-400 w-3 h-3" /> Password
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="text-slate-400 hover:text-white text-[11px] flex items-center gap-1"
+                  >
+                    {showPassword ? <FaEyeSlash /> : <FaEye />}
+                    <span>{showPassword ? 'Hide' : 'Show'}</span>
+                  </button>
+                </label>
+                <div className="relative">
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    placeholder="Enter account password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/15 text-white text-xs placeholder:text-slate-500 focus:outline-none focus:border-blue-500 transition-colors"
+                    required
+                  />
+                </div>
+              </div>
+
+              {/* Submit Button */}
               <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+                whileHover={{ scale: 1.01 }}
+                whileTap={{ scale: 0.99 }}
                 type="submit"
                 disabled={loading}
-                className="w-full py-3.5 rounded-xl bg-gradient-to-r from-purple-500 via-fuchsia-500 to-pink-500 text-white font-semibold text-lg shadow-lg hover:shadow-[0_0_35px_rgba(168,85,247,0.35)] transition-all disabled:opacity-60 cursor-pointer"
+                className="w-full mt-2 py-3.5 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-emerald-600 text-white font-bold text-xs uppercase tracking-widest shadow-[0_4px_20px_rgba(37,99,235,0.4)] hover:shadow-[0_6px_25px_rgba(37,99,235,0.6)] transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
               >
-                {loading ? 'Signing in...' : '🔐 Sign In'}
+                {loading ? (
+                  <span className="flex items-center gap-2">
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    Authenticating...
+                  </span>
+                ) : (
+                  <>
+                    <span>Sign In to {selectedRole.toUpperCase()} Portal</span>
+                    <FaArrowRight className="w-3 h-3" />
+                  </>
+                )}
               </motion.button>
             </form>
 
-            {error && (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="mt-5 p-3 rounded-xl text-center font-semibold bg-rose-500/20 text-rose-300 border border-rose-500/30 text-sm"
-              >
-                {error}
-              </motion.div>
-            )}
+            {/* Error Banner */}
+            <AnimatePresence>
+              {error && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="mt-4 p-3 rounded-xl text-center font-medium bg-rose-500/20 text-rose-300 border border-rose-500/30 text-xs"
+                >
+                  {error}
+                </motion.div>
+              )}
+            </AnimatePresence>
 
-            <div className="mt-6 flex flex-col items-center gap-3">
-              <Link to="/register" className="text-slate-400 hover:text-purple-300 font-medium text-sm transition-colors">
-                Don't have an account? Register
-              </Link>
+            {/* Quick Demo One-Click Access Button */}
+            <div className="mt-6 pt-4 border-t border-white/10 flex flex-col items-center gap-3">
               <button
                 type="button"
                 data-testid="demo-login-btn"
-                onClick={() => handleDemo('teacher')}
-                className="text-xs text-slate-500 hover:text-purple-400 transition-colors cursor-pointer bg-transparent border-0 underline"
+                onClick={() => handleDemoDirect(selectedRole)}
+                className="w-full py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/15 text-slate-300 hover:text-white text-xs font-semibold flex items-center justify-center gap-2 transition-all cursor-pointer"
               >
-                ⚡ Skip to Demo Dashboard
+                <FaCheckCircle className="text-emerald-400" />
+                <span>One-Click Instant Demo Access ({selectedRole})</span>
               </button>
+
+              <div className="flex items-center justify-between w-full text-xs text-slate-400">
+                <Link to="/register" className="hover:text-blue-400 transition-colors">
+                  New student/faculty? <strong>Register</strong>
+                </Link>
+                <Link to="/" className="hover:text-white transition-colors">
+                  ← Back to Home
+                </Link>
+              </div>
             </div>
+
           </div>
         </div>
       </motion.div>

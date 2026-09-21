@@ -64,8 +64,13 @@ router.get('/dashboard', async (req, res) => {
       { name: 'Arts', teachers: 5, students: 90, avgMarks: 80 },
     ];
 
+    const allStudents = await Student.find().populate('userId', 'name email avatar').sort({ rollNo: 1 });
+    const allTeachers = await Teacher.find().populate('userId', 'name email avatar');
+
     res.json({
       stats: { totalStudents, totalTeachers, totalUsers, totalRevenue, pendingFees, avgPerformance, attendanceRate },
+      students: allStudents,
+      teachers: allTeachers,
       fees,
       expenses,
       revenueByMonth,
@@ -79,6 +84,7 @@ router.get('/dashboard', async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
+
 
 router.put('/leave/:id', async (req, res) => {
   try {
