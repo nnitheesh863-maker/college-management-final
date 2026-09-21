@@ -170,15 +170,15 @@ export default function TopNavbar({ onOpenSearch, onOpenApply }) {
               )}
             </div>
 
-            {/* Apply Now Primary CTA */}
-            <a
-              href="#admissions"
-              onClick={onOpenApply}
-              className="bg-gradient-to-r from-blue-600 via-indigo-600 to-emerald-600 hover:from-blue-700 hover:to-emerald-700 text-white px-5 py-2.5 rounded-xl text-xs font-bold tracking-widest uppercase transition-all shadow-[0_4px_14px_rgba(37,99,235,0.4)] hover:shadow-[0_6px_20px_rgba(37,99,235,0.6)] transform hover:-translate-y-0.5"
+            {/* Launch ERP Primary CTA */}
+            <Link
+              to="/login"
+              className="bg-gradient-to-r from-blue-600 via-indigo-600 to-emerald-600 hover:from-blue-700 hover:to-emerald-700 text-white px-5 py-2.5 rounded-xl text-xs font-bold tracking-widest uppercase transition-all shadow-[0_4px_14px_rgba(37,99,235,0.4)] hover:shadow-[0_6px_20px_rgba(37,99,235,0.6)] transform hover:-translate-y-0.5 flex items-center gap-1.5"
             >
-              Apply Online
-            </a>
+              <span>Launch ERP 🚀</span>
+            </Link>
           </div>
+
 
           {/* Mobile Hamburger Button */}
           <div className="flex items-center gap-3 lg:hidden">
@@ -230,16 +230,13 @@ export default function TopNavbar({ onOpenSearch, onOpenApply }) {
                   Register
                 </Link>
               </div>
-              <a
-                href="#admissions"
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  if (onOpenApply) onOpenApply();
-                }}
-                className="bg-gradient-to-r from-blue-600 to-emerald-600 text-white text-center py-3 rounded-xl text-xs font-bold uppercase tracking-wider shadow-lg"
+              <Link
+                to="/login"
+                onClick={() => setMobileMenuOpen(false)}
+                className="bg-gradient-to-r from-blue-600 to-emerald-600 text-white text-center py-3 rounded-xl text-xs font-bold uppercase tracking-wider shadow-lg flex items-center justify-center gap-2"
               >
-                Apply for Admission 2026-27
-              </a>
+                <span>Launch ERP 🚀</span>
+              </Link>
             </div>
           </div>
         )}
@@ -247,3 +244,4 @@ export default function TopNavbar({ onOpenSearch, onOpenApply }) {
     </header>
   );
 }
+

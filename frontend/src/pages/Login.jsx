@@ -12,6 +12,8 @@ import {
   FaEye, 
   FaEyeSlash, 
   FaArrowRight, 
+  FaArrowLeft,
+  FaHome,
   FaShieldAlt,
   FaCheckCircle 
 } from 'react-icons/fa';
@@ -70,12 +72,31 @@ export default function Login() {
   };
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center bg-[#070a13] p-4 sm:p-6 overflow-hidden">
+    <div className="relative min-h-screen flex flex-col items-center justify-center bg-[#070a13] p-4 sm:p-6 overflow-hidden">
       {/* Background Animated Ambient Lights */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -left-40 w-[600px] h-[600px] bg-[#1e3a8a]/25 rounded-full blur-[140px] float" />
         <div className="absolute -bottom-40 -right-40 w-[600px] h-[600px] bg-emerald-600/20 rounded-full blur-[140px] float-delayed" />
         <div className="absolute top-1/3 right-1/4 w-[400px] h-[400px] bg-blue-500/15 rounded-full blur-[160px] float-fast" />
+      </div>
+
+      {/* Prominent Back to Landing Page Bar */}
+      <div className="w-full max-w-lg mb-4 flex items-center justify-between z-20">
+        <Link
+          to="/"
+          className="inline-flex items-center gap-2.5 px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white text-xs font-bold tracking-wide backdrop-blur-md shadow-lg transition-all transform hover:-translate-x-1"
+        >
+          <FaArrowLeft className="text-emerald-400" />
+          <span>← Back to Landing Page</span>
+        </Link>
+
+        <Link
+          to="/"
+          className="text-xs text-slate-400 hover:text-white flex items-center gap-1.5 transition-colors"
+        >
+          <FaHome className="text-blue-400" />
+          <span className="hidden sm:inline">KPRCAS Main Portal</span>
+        </Link>
       </div>
 
       <motion.div
@@ -251,8 +272,8 @@ export default function Login() {
                 <Link to="/register" className="hover:text-blue-400 transition-colors">
                   New student/faculty? <strong>Register</strong>
                 </Link>
-                <Link to="/" className="hover:text-white transition-colors">
-                  ← Back to Home
+                <Link to="/" className="hover:text-white transition-colors font-bold text-emerald-400">
+                  ← Back to Landing Page
                 </Link>
               </div>
             </div>

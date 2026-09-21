@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
 import { KprcasLogo, KPRCAS_LOGO_URL } from '../components/landing/UnipixLogo';
-import { FaUser, FaEnvelope, FaLock, FaUserGraduate, FaChalkboardTeacher, FaUserTie, FaArrowRight, FaIdCard, FaBuilding } from 'react-icons/fa';
+import { FaUser, FaEnvelope, FaLock, FaUserGraduate, FaChalkboardTeacher, FaUserTie, FaArrowRight, FaArrowLeft, FaHome } from 'react-icons/fa';
 
 export default function Register() {
   const [form, setForm] = useState({ 
@@ -38,11 +38,30 @@ export default function Register() {
   };
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center bg-[#070a13] p-4 sm:p-6 overflow-hidden">
+    <div className="relative min-h-screen flex flex-col items-center justify-center bg-[#070a13] p-4 sm:p-6 overflow-hidden">
       {/* Ambient Glows */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-[600px] h-[600px] bg-[#1e3a8a]/25 rounded-full blur-[140px] float" />
         <div className="absolute -bottom-40 -left-40 w-[600px] h-[600px] bg-emerald-600/20 rounded-full blur-[140px] float-delayed" />
+      </div>
+
+      {/* Prominent Back to Landing Page Bar */}
+      <div className="w-full max-w-lg mb-4 flex items-center justify-between z-20">
+        <Link
+          to="/"
+          className="inline-flex items-center gap-2.5 px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white text-xs font-bold tracking-wide backdrop-blur-md shadow-lg transition-all transform hover:-translate-x-1"
+        >
+          <FaArrowLeft className="text-emerald-400" />
+          <span>← Back to Landing Page</span>
+        </Link>
+
+        <Link
+          to="/"
+          className="text-xs text-slate-400 hover:text-white flex items-center gap-1.5 transition-colors"
+        >
+          <FaHome className="text-blue-400" />
+          <span className="hidden sm:inline">Main Portal</span>
+        </Link>
       </div>
 
       <motion.div
@@ -230,9 +249,12 @@ export default function Register() {
               )}
             </AnimatePresence>
 
-            <div className="mt-6 pt-4 border-t border-white/10 text-center">
-              <Link to="/login" className="text-slate-400 hover:text-blue-400 text-xs transition-colors">
-                Already registered? <strong className="text-white">Sign In to ERP</strong>
+            <div className="mt-6 pt-4 border-t border-white/10 flex items-center justify-between text-xs">
+              <Link to="/login" className="text-slate-400 hover:text-blue-400 transition-colors">
+                Already registered? <strong className="text-white">Sign In</strong>
+              </Link>
+              <Link to="/" className="text-emerald-400 hover:text-white font-bold transition-colors">
+                ← Back to Landing Page
               </Link>
             </div>
           </div>
