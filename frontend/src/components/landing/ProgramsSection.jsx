@@ -1,13 +1,11 @@
-import React, { useState } from 'react';
-import { FaArrowUpRightFromSquare, FaGraduationCap, FaLaptopCode, FaMicroscope, FaPalette } from 'react-icons/fa6';
+import React from 'react';
+import { FaArrowUpRightFromSquare, FaGraduationCap, FaMicroscope } from 'react-icons/fa6';
 
-export default function ProgramsSection() {
-  const [selectedCategory, setSelectedCategory] = useState('all');
-
+export default function ProgramsSection({ onSelectProgram }) {
   const programs = [
     {
       id: 1,
-      title: 'Graduate & Undergraduate',
+      title: 'Graduate & Undergraduate Studies',
       category: 'undergrad',
       badge: 'B.Sc / B.A / B.Tech',
       description: 'Rigorous foundational and specialized degrees designed to foster critical thinking and practical leadership.',
@@ -120,9 +118,10 @@ export default function ProgramsSection() {
           {/* Right Column: 4-Card Bento Grid */}
           <div className="lg:col-span-7">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-              {programs.map((prog, idx) => (
+              {programs.map((prog) => (
                 <div
                   key={prog.id}
+                  onClick={() => onSelectProgram && onSelectProgram(prog)}
                   className="group relative h-72 sm:h-80 rounded-2xl overflow-hidden border border-white/10 shadow-lg cursor-pointer transition-all duration-500 hover:shadow-2xl hover:border-[#8B1538]/60 hover:-translate-y-1.5"
                 >
                   {/* Background Image */}
@@ -154,7 +153,7 @@ export default function ProgramsSection() {
                     <div className="flex items-center justify-between text-[11px] text-[#C5A880] font-semibold border-t border-white/15 pt-2">
                       <span>{prog.stats}</span>
                       <span className="flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-                        Explore →
+                        Explore Curriculum →
                       </span>
                     </div>
                   </div>

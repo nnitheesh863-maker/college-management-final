@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import TopNavbar from '../components/landing/TopNavbar';
 import HeroSection from '../components/landing/HeroSection';
@@ -11,11 +11,39 @@ import UpcomingEventsSection from '../components/landing/UpcomingEventsSection';
 import AlumniNewsletterSection from '../components/landing/AlumniNewsletterSection';
 import LandingFooter from '../components/landing/LandingFooter';
 import SearchModal from '../components/landing/SearchModal';
-import { FaGraduationCap, FaChalkboardTeacher, FaUserTie } from 'react-icons/fa';
+import ProgramModal from '../components/landing/ProgramModal';
+import VirtualTourModal from '../components/landing/VirtualTourModal';
+import { FaGraduationCap, FaChalkboardTeacher, FaUserTie, FaChevronUp } from 'react-icons/fa';
 
 export default function LandingPage() {
   const [searchOpen, setSearchOpen] = useState(false);
+  const [tourOpen, setTourOpen] = useState(false);
+  const [selectedProgram, setSelectedProgram] = useState(null);
+  const [prefilledMajor, setPrefilledMajor] = useState('');
   const [showPortalFab, setShowPortalFab] = useState(false);
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 400) {
+        setShowScrollTop(true);
+      } else {
+        setShowScrollTop(false);
+      }
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleApplyForProgram = (programName) => {
+    setPrefilledMajor(programName);
+    const el = document.getElementById('admissions');
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  };
 
   return (
     <div className="min-h-screen bg-[#0b0f19] text-slate-100 font-sans selection:bg-[#8B1538] selection:text-white">
@@ -32,21 +60,21 @@ export default function LandingPage() {
       <HeroSection />
 
       {/* Our Programs */}
-      <ProgramsSection />
+      <ProgramsSection onSelectProgram={(prog) => setSelectedProgram(prog)} />
 
       {/* Embark on a Journey / About Unipix University */}
       <StorySection />
 
-      {/* Tuition Fees */}
+      {/* Tuition Fees & Dynamic Cost Calculator */}
       <TuitionSection />
 
-      {/* Campus Life */}
-      <CampusLifeSection />
+      {/* Campus Life with Virtual Tour Trigger */}
+      <CampusLifeSection onOpenTour={() => setTourOpen(true)} />
 
-      {/* Apply For Admission */}
-      <AdmissionSection />
+      {/* Apply For Admission Multi-Step Wizard */}
+      <AdmissionSection prefilledProgram={prefilledMajor} />
 
-      {/* Upcoming Events */}
+      {/* Upcoming Events & Countdown */}
       <UpcomingEventsSection />
 
       {/* Alumni Gazette Newsletter */}
@@ -58,8 +86,32 @@ export default function LandingPage() {
       {/* Search Modal */}
       <SearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
 
-      {/* Floating Fast-Access ERP Hub Widget */}
-      <div className="fixed bottom-6 right-6 z-40">
+      {/* Program Details Modal */}
+      <ProgramModal 
+        isOpen={!!selectedProgram} 
+        program={selectedProgram} 
+        onClose={() => setSelectedProgram(null)} 
+        onApply={handleApplyForProgram}
+      />
+
+      {/* Virtual Tour Modal */}
+      <VirtualTourModal isOpen={tourOpen} onClose={() => setTourOpen(false)} />
+
+      {/* Floating Action Buttons */}
+      <div className="fixed bottom-6 right-6 z-40 flex flex-col items-end gap-3">
+        {/* Scroll To Top Button */}
+        {showScrollTop && (
+          <button
+            onClick={scrollToTop}
+            className="w-10 h-10 rounded-full bg-black/60 hover:bg-[#8B1538] text-white border border-white/20 flex items-center justify-center transition-all duration-300 shadow-xl backdrop-blur-md"
+            title="Scroll to top"
+            aria-label="Scroll to top"
+          >
+            <FaChevronUp className="w-3.5 h-3.5" />
+          </button>
+        )}
+
+        {/* Fast-Access ERP Hub Widget */}
         <div className="relative group">
           {showPortalFab && (
             <div className="absolute bottom-14 right-0 w-64 bg-[#0f1422] border border-white/20 rounded-2xl shadow-2xl p-3 mb-2 backdrop-blur-xl animate-in fade-in slide-in-from-bottom-2">

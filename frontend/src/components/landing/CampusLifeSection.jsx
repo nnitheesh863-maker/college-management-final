@@ -1,7 +1,7 @@
 import React from 'react';
-import { FaUsers, FaFootballBall, FaHotel, FaTheaterMasks, FaHeartbeat } from 'react-icons/fa';
+import { FaUsers, FaFootballBall, FaHotel, FaHeartbeat, FaCompass } from 'react-icons/fa';
 
-export default function CampusLifeSection() {
+export default function CampusLifeSection({ onOpenTour }) {
   const highlights = [
     {
       icon: <FaUsers className="w-5 h-5 text-[#C5A880]" />,
@@ -42,39 +42,59 @@ export default function CampusLifeSection() {
             </span>
           </h2>
 
-          <p className="text-slate-400 text-sm sm:text-base leading-relaxed">
+          <p className="text-slate-400 text-sm sm:text-base leading-relaxed mb-6">
             Experience an enriching campus culture where friendships are forged, passions are ignited, and lifelong memories are made every single day.
           </p>
+
+          <button
+            onClick={onOpenTour}
+            className="inline-flex items-center gap-2.5 bg-white/10 hover:bg-white/20 border border-white/25 text-white px-6 py-2.5 rounded-full text-xs font-semibold tracking-wider uppercase backdrop-blur-md transition-all transform hover:scale-105"
+          >
+            <FaCompass className="text-[#8B1538]" />
+            <span>Launch 360° Virtual Campus Tour</span>
+          </button>
         </div>
 
         {/* Large Visual Feature Grid */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6 mb-16">
           
-          {/* Main Hero Shot: Students walking through university courtyard */}
-          <div className="md:col-span-8 relative rounded-3xl overflow-hidden shadow-2xl border border-white/10 group h-80 sm:h-96 md:h-[450px]">
+          {/* Main Hero Shot */}
+          <div 
+            onClick={onOpenTour}
+            className="md:col-span-8 relative rounded-3xl overflow-hidden shadow-2xl border border-white/10 group h-80 sm:h-96 md:h-[450px] cursor-pointer"
+          >
             <img
               src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=1200&auto=format&fit=crop"
               alt="Students enjoying campus life at Unipix"
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               loading="lazy"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-            <div className="absolute bottom-6 left-6 right-6">
-              <span className="bg-[#8B1538] text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full">
-                Student Community
-              </span>
-              <h3 className="font-serif text-xl sm:text-2xl font-bold text-white mt-2">
-                A Diverse, Inclusive Global Family
-              </h3>
-              <p className="text-xs sm:text-sm text-slate-300 mt-1 max-w-xl">
-                Students from more than 95 nations come together to collaborate, celebrate cultural festivals, and drive social innovation.
-              </p>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
+            <div className="absolute bottom-6 left-6 right-6 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+              <div>
+                <span className="bg-[#8B1538] text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full">
+                  Student Community
+                </span>
+                <h3 className="font-serif text-xl sm:text-2xl font-bold text-white mt-2">
+                  A Diverse, Inclusive Global Family
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-300 mt-1 max-w-xl">
+                  Students from more than 95 nations come together to collaborate, celebrate cultural festivals, and drive social innovation.
+                </p>
+              </div>
+
+              <div className="bg-white/15 backdrop-blur-md px-4 py-2 rounded-xl text-xs font-semibold text-white group-hover:bg-[#8B1538] transition-colors flex-shrink-0">
+                Explore 360° View ➔
+              </div>
             </div>
           </div>
 
           {/* Secondary Collage */}
           <div className="md:col-span-4 flex flex-col gap-6">
-            <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-white/10 group h-40 sm:h-52">
+            <div 
+              onClick={onOpenTour}
+              className="relative rounded-3xl overflow-hidden shadow-2xl border border-white/10 group h-40 sm:h-52 cursor-pointer"
+            >
               <img
                 src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?q=80&w=800&auto=format&fit=crop"
                 alt="Student activities and leadership"
@@ -87,7 +107,10 @@ export default function CampusLifeSection() {
               </div>
             </div>
 
-            <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-white/10 group h-40 sm:h-52">
+            <div 
+              onClick={onOpenTour}
+              className="relative rounded-3xl overflow-hidden shadow-2xl border border-white/10 group h-40 sm:h-52 cursor-pointer"
+            >
               <img
                 src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=800&auto=format&fit=crop"
                 alt="University symposiums and theater"
