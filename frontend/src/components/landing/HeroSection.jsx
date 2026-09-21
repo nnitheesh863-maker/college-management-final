@@ -9,23 +9,23 @@ export default function HeroSection() {
     <section id="hero" className="relative min-h-[92vh] flex items-center justify-center pt-32 pb-24 overflow-hidden bg-[#040711]">
       {/* Background Layer: Real College Campus Photo with Cinematic Backdrop Overlay */}
       <div className="absolute inset-0 z-0 overflow-hidden">
-        {/* Campus Photo with Smooth Slow Ken-Burns Scale Animation */}
+        {/* Campus Photo with Smooth Scale and Crisp Visibility */}
         <motion.div
-          initial={{ scale: 1.08, opacity: 0 }}
-          animate={{ scale: 1, opacity: 0.28 }}
-          transition={{ duration: 3, ease: "easeOut" }}
+          initial={{ scale: 1.05, opacity: 0 }}
+          animate={{ scale: 1, opacity: 0.45 }}
+          transition={{ duration: 2, ease: "easeOut" }}
           className="absolute inset-0"
         >
           <img
             src={KPRCAS_CAMPUS_BG_URL}
             alt="KPRCAS College Campus Infrastructure"
-            className="w-full h-full object-cover object-center filter brightness-90 contrast-125"
+            className="w-full h-full object-cover object-center filter brightness-105 contrast-115"
           />
         </motion.div>
 
-        {/* Dynamic Dark Gradient & Glass Vignette Overlays */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#040711] via-[#040711]/80 to-[#040711]/90" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#040711] via-transparent to-[#040711]" />
+        {/* Dynamic Dark Gradient & Glass Vignette Overlays for Crisp Text Contrast */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#040711] via-[#040711]/60 to-[#040711]/80" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#040711]/80 via-transparent to-[#040711]/80" />
 
         {/* Floating Ambient Glowing Light Beams */}
         <motion.div
