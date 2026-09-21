@@ -17,7 +17,7 @@ import {
 } from 'react-icons/fa';
 import { KprcasLogo } from './UnipixLogo';
 
-export default function TopNavbar({ onOpenSearch, onOpenApply }) {
+export default function TopNavbar({ onOpenSearch }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [portalDropdownOpen, setPortalDropdownOpen] = useState(false);

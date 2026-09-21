@@ -50,10 +50,6 @@ export default function LandingPage() {
       {/* Top Navbar */}
       <TopNavbar 
         onOpenSearch={() => setSearchOpen(true)}
-        onOpenApply={() => {
-          const el = document.getElementById('admissions');
-          if (el) el.scrollIntoView({ behavior: 'smooth' });
-        }}
       />
 
       {/* Hero Section */}
